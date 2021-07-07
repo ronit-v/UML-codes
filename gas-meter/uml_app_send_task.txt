@@ -1,0 +1,35 @@
+@startuml
+
+start
+
+repeat  :Reset;
+        :Setup random delay to prevent collisions;
+        :Wait for random timer to complete;
+        
+        
+        repeat  :Send meter data;
+
+            if(Send succeed?) then (Yes)
+                :Setup timer for ACK;
+                repeat  :Wait for ACK;
+                    if(ACK Timeout?) then (Yes)
+                        break
+                    else (No)
+                        if(ACK Received?) then (Yes)
+                            break
+                        else (No)
+                        endif
+                    endif
+                
+                repeat while (Frame Error ?) is (No) not (Yes)
+            else (No)
+                :Setup delay for retransmission;
+                :Wait for some time;
+            endif
+            
+        repeat while (Retries remaining ?) is (Yes) not (No)
+        
+        :Wrap up and reset;
+
+
+@enduml
